@@ -14,7 +14,7 @@ const PORT: u16 = 7878;
 fn machines() -> HashMap<String, String> {
     let mut m = HashMap::new();
     // format : "nom_affichage" => "ip"
-    m.insert("PC-01-TSEFACK".to_string(), "192.168.1.101".to_string());
+    m.insert("PC-01-DARELLE".to_string(), "192.168.1.115".to_string());
     m.insert("PC-02-FOKAM".to_string(), "192.168.1.102".to_string());
     m.insert("PC-03-NZEUTEM".to_string(), "192.168.1.103".to_string());
     m.insert("ateba".to_string(), "192.168.1.105".to_string());

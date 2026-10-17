@@ -380,21 +380,21 @@ fn handle_client(mut stream: TcpStream, snapshot: Arc<Mutex<SystemSnapshot>>) {
 }
 
 
-// Main Exo 1: Types métier et affichage — Etape 3: Affichage humain avec le trait Display
-// fn main() {
-//     // Test d'affichage — données fictives pour valider les types
-//     let snapshot = SystemSnapshot {
-//         timestamp: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
-//         cpu: CpuInfo { usage_percent: 42.5, core_count: 8 },
-//         memory: MemInfo { total_mb: 16384, used_mb: 8192, free_mb: 8192 },
-//         top_processes: vec![
-//             ProcessInfo { pid: 1234, name: "code.exe".to_string(), cpu_usage: 12.3, memory_mb: 512 },
-//             ProcessInfo { pid: 5678, name: "chrome.exe".to_string(), cpu_usage: 8.1, memory_mb: 1024 },
-//         ],
-//     };
+Main Exo 1: Types métier et affichage — Etape 3: Affichage humain avec le trait Display
+fn main() {
+    // Test d'affichage — données fictives pour valider les types
+    let snapshot = SystemSnapshot {
+        timestamp: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
+        cpu: CpuInfo { usage_percent: 42.5, core_count: 8 },
+        memory: MemInfo { total_mb: 16384, used_mb: 8192, free_mb: 8192 },
+        top_processes: vec![
+            ProcessInfo { pid: 1234, name: "code.exe".to_string(), cpu_usage: 12.3, memory_mb: 512 },
+            ProcessInfo { pid: 5678, name: "chrome.exe".to_string(), cpu_usage: 8.1, memory_mb: 1024 },
+        ],
+    };
 
-//     println!("{}", snapshot);
-// }
+    println!("{}", snapshot);
+}
 
 
 // Main Exo 2: Gestion d'erreurs — Etape 1: Utilisation de Result dans la fonction de collecte et affichage complet
@@ -420,37 +420,37 @@ fn handle_client(mut stream: TcpStream, snapshot: Arc<Mutex<SystemSnapshot>>) {
 // Main Exo 4: Serveur TCP multithreadé — Etape 1: Lancement d'un serveur TCP basique
 
 
-fn main() {
-    println!("SysWatch démarrage...");
+// fn main() {
+//     println!("SysWatch démarrage...");
 
-    // Collecte initiale
-    let initial = collect_snapshot().expect("Impossible de collecter les métriques initiales");
-    println!("Métriques initiales OK:\n{}", initial);
+//     // Collecte initiale
+//     let initial = collect_snapshot().expect("Impossible de collecter les métriques initiales");
+//     println!("Métriques initiales OK:\n{}", initial);
 
-    // Snapshot partagé entre tous les threads
-    let shared_snapshot = Arc::new(Mutex::new(initial));
+//     // Snapshot partagé entre tous les threads
+//     let shared_snapshot = Arc::new(Mutex::new(initial));
 
-    // Thread de rafraîchissement automatique toutes les 5s
-    {
-        let snap_clone = Arc::clone(&shared_snapshot);
-        thread::spawn(move || snapshot_refresher(snap_clone));
-    }
+//     // Thread de rafraîchissement automatique toutes les 5s
+//     {
+//         let snap_clone = Arc::clone(&shared_snapshot);
+//         thread::spawn(move || snapshot_refresher(snap_clone));
+//     }
 
-    // Démarrage du serveur TCP
-    let listener = TcpListener::bind("0.0.0.0:7878").expect("Impossible de bind le port 7878");
-    println!("Serveur en écoute sur port 7878...");
-    println!("Connecte-toi avec: telnet localhost 7878");
-    println!("  ou: nc localhost 7878 (WSL/Git Bash)");
-    println!("  ou: Test-NetConnection localhost -Port 7878 (PowerShell - test seulement)");
-    println!("Ctrl+C pour arrêter.\n");
+//     // Démarrage du serveur TCP
+//     let listener = TcpListener::bind("0.0.0.0:7878").expect("Impossible de bind le port 7878");
+//     println!("Serveur en écoute sur port 7878...");
+//     println!("Connecte-toi avec: telnet localhost 7878");
+//     println!("  ou: nc localhost 7878 (WSL/Git Bash)");
+//     println!("  ou: Test-NetConnection localhost -Port 7878 (PowerShell - test seulement)");
+//     println!("Ctrl+C pour arrêter.\n");
 
-    for stream in listener.incoming() {
-        match stream {
-            Ok(stream) => {
-                let snap_clone = Arc::clone(&shared_snapshot);
-                thread::spawn(move || handle_client(stream, snap_clone));
-            }
-            Err(e) => eprintln!("Erreur connexion entrante: {}", e),
-        }
-    }
-}
+//     for stream in listener.incoming() {
+//         match stream {
+//             Ok(stream) => {
+//                 let snap_clone = Arc::clone(&shared_snapshot);
+//                 thread::spawn(move || handle_client(stream, snap_clone));
+//             }
+//             Err(e) => eprintln!("Erreur connexion entrante: {}", e),
+//         }
+//     }
+// }
